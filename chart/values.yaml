@@ -1,7 +1,7 @@
 namespace: "external-secrets"
 connectTokenSecretName: "onepassword-connect-token"
 
-enableClusterVaults: true
+enableClusterVaults: false
 clusterVaults: {}
 # Example cluster vault
 # - name: "example-cluster-vault"
