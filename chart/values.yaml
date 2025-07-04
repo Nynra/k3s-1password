@@ -7,7 +7,7 @@ connect:
 external-secrets:
   # Specifies whether an external secret operator deployment be created.
   # If set to false, the operator will not be deployed and only the CRDs will be installed.
-  createOperator: false
+  createOperator: true
 
   # If set, install and upgrade CRDs through helm chart.
   installCRDs: true
