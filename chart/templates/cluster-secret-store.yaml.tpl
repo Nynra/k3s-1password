@@ -20,4 +20,4 @@ spec:
             key: token
             namespace: {{ $.Values.namespace }}
 {{- end }}
-{{- else }}
+{{- end }}
