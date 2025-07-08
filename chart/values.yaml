@@ -26,6 +26,21 @@ connect:
   connect: 
     serviceType: ClusterIP
 
+    api:
+      # Prometheus Service Monitor
+      # ref: https://github.com/coreos/prometheus-operator
+      serviceMonitor:
+        # Create ServiceMonitor Resource for scraping metrics using PrometheusOperator
+        enabled: false
+        # Specify the interval at which metrics should be scraped
+        interval: 30s
+        # Define the path used by ServiceMonitor to scrape metrics
+        path: "/metrics"
+        # Define the HTTP URL parameters used by ServiceMonitor
+        params: {}
+        # Extra annotations for the ServiceMonitor
+        annotations: {}
+
 external-secrets:
   # Specifies whether an external secret operator deployment be created.
   # If set to false, the operator will not be deployed and only the CRDs will be installed.
@@ -54,6 +69,10 @@ external-secrets:
   processClusterStore: true
   # if true, the operator will process push secret. Else, it will ignore them.
   processPushSecret: true
+
+  serviceMonitor:
+    # -- Specifies whether to create a ServiceMonitor resource for collecting Prometheus metrics
+    enabled: false
   grafanaDashboard:
     # If true creates a Grafana dashboard.
     enabled: false
