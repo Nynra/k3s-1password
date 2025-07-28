@@ -1,5 +1,5 @@
-{{- if .Values.enableClusterVaults }}
-{{- range .Values.clusterVaults }}
+{{- if .Values.clusterVaults.enabled }}
+{{- range .Values.clusterVaults.vaults }}
 ---
 apiVersion: external-secrets.io/v1
 kind: ClusterSecretStore

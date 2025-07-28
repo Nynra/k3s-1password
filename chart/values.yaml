@@ -1,24 +1,26 @@
 namespace: "external-secrets"
 connectTokenSecretName: "onepassword-connect-token"
 
-enableClusterVaults: false
-clusterVaults: {}
-# Example cluster vault
-# - name: "example-cluster-vault"
-#   vaults:
-#     - name: "example-vault"
-#       priority: 1
-#     # More can be added, priority should be unique
+clusterVaults:
+  enabled: false
+  vaults: {}
+  # Example cluster vault
+  # - name: "example-cluster-vault"
+  #   vaults:
+  #     - name: "example-vault"
+  #       priority: 1
+  #     # More can be added, priority should be unique
 
-enableScopedVaults: false
-scopedVaults: {}
-# Example scoped vault
-# - name: "example-scoped-vault"
-#   namespace: "example-namespace"
-#   vaults:
-#     - name: "example-vault"
-#       priority: 1
-#     # More can be added, priority should be unique
+scopedVaults:
+  enabled: false
+  vaults: {}
+  # Example scoped vault
+  # - name: "example-scoped-vault"
+  #   namespace: "example-namespace"
+  #   vaults:
+  #     - name: "example-vault"
+  #       priority: 1
+  #     # More can be added, priority should be unique
 
 # First connect to pass the content of this block to the helm chart
 connect: 

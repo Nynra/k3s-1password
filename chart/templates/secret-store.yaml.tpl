@@ -1,5 +1,5 @@
-{{- if .Values.enableScopedVaults }}
-{{- range .Values.scopedVaults }}
+{{- if .Values.scopedVaults.enabled }}
+{{- range .Values.scopedVaults.vaults }}
 ---
 apiVersion: external-secrets.io/v1
 kind: SecretStore
