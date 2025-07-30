@@ -1,4 +1,4 @@
-{{- .Values.enabled }}{{- if .Values.clusterStores.enabled }}
+{{- if .Values.enabled }}{{- if .Values.clusterStores.enabled }}
 {{- range .Values.clusterStores.stores }}
 {{- if .enabled }}
 ---
