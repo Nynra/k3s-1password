@@ -11,7 +11,7 @@ spec:
     onepassword:
       connectHost: http://onepassword-connect:8080
       vaults:
-        {{- range .stores }}
+        {{- range .vaults }}
         {{ .name | quote }}: {{ .priority }}
         {{- end }}
       auth:
