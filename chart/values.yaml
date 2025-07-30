@@ -9,7 +9,7 @@ global:
   affinity: {}
 
 enabled: true
-enableReflector: true
+enableReflector: false
 enableConnect: true
 enableEksOperator: true
 
