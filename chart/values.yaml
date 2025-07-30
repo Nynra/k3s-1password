@@ -1,28 +1,23 @@
-namespace: "external-secrets"
+global:
+  commonLabels: {}
+  commonAnnotations: {}
+
 connectTokenSecretName: "onepassword-connect-token"
 
-clusterVaults:
+namespace:
+  enabled: true
+  name: "external-secrets"
+  commonAnnotations: {}
+  commonLabels: {}
+
+clusterStores:
   enabled: false
-  vaults: {}
+  stores: {}
   # Example cluster vault
   # - name: "example-cluster-vault"
   #   # Defaults to true, set to false to disable
   #   enabled: true
   #   # Vaults in the cluster vault
-  #   vaults:
-  #     - name: "example-vault"
-  #       priority: 1
-  #     # More can be added, priority should be unique
-
-scopedVaults:
-  enabled: false
-  vaults: {}
-  # Example scoped vault
-  # - name: "example-scoped-vault"
-  #   namespace: "example-namespace"
-  #   # Defaults to true, set to false to disable
-  #   enabled: true
-  #   # Vaults in the scoped vault
   #   vaults:
   #     - name: "example-vault"
   #       priority: 1

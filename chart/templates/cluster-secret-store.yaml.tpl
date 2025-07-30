@@ -1,5 +1,5 @@
-{{- if .Values.clusterVaults.enabled }}
-{{- range .Values.clusterVaults.vaults }}
+{{- .Values.enabled }}{{- if .Values.clusterStores.enabled }}
+{{- range .Values.clusterStores.stores }}
 {{- if .enabled }}
 ---
 apiVersion: external-secrets.io/v1
@@ -11,7 +11,7 @@ spec:
     onepassword:
       connectHost: http://onepassword-connect:8080
       vaults:
-        {{- range .vaults }}
+        {{- range .stores }}
         {{ .name | quote }}: {{ .priority }}
         {{- end }}
       auth:
@@ -19,7 +19,7 @@ spec:
           connectTokenSecretRef:
             name: {{ $.Values.connectTokenSecretName | quote }}
             key: token
-            namespace: {{ $.Values.namespace | quote }}
+            namespace: {{ $.Values.namespace.name | quote }}
 {{- end }}
 {{- end }}
-{{- end }}
+{{- end }}{{- end }}

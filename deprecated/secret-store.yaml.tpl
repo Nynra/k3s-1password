@@ -1,12 +1,12 @@
-{{- if .Values.scopedVaults.enabled }}
-{{- range .Values.scopedVaults.vaults }}
+{{- .Values.enabled }}{{- if .Values.scopedStores.enabled }}
+{{- range .Values.scopedStores.stores }}
 {{- if .enabled }}
 ---
 apiVersion: external-secrets.io/v1
 kind: SecretStore
 metadata:
   name: {{ .name | quote }}
-  namespace: {{ .namespace | quote }}
+  namespace: {{ .namespace.name | quote }}
 spec:
   provider:
     onepassword:
