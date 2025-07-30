@@ -12,7 +12,7 @@ spec:
       connectHost: http://onepassword-connect:8080
       vaults:
         {{- range .vaults }}
-        {{ .name | quote }}: {{ .priority | quote }}
+        {{ .name | quote }}: {{ .priority }}
         {{- end }}
       auth:
         secretRef:
