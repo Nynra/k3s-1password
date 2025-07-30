@@ -2,7 +2,16 @@ global:
   commonLabels: {}
   commonAnnotations: {}
 
+  # Supported by EKS
+  nodeSelector: {}
+  tolerations: []
+  topologySpreadConstraints: []
+  affinity: {}
+
 enabled: true
+enableReflector: true
+enableConnect: true
+enableEksOperator: true
 
 connectTokenSecretName: "onepassword-connect-token"
 
@@ -25,11 +34,30 @@ clusterStores:
   #       priority: 1
   #     # More can be added, priority should be unique
 
+# Helm values passed to the connect chart.
 # First connect to pass the content of this block to the helm chart
+# https://github.com/1Password/connect-helm-charts/blob/main/charts/connect/values.yaml
 connect: 
   # Second because the chart expects the values to be in a connect block
   connect: 
     serviceType: ClusterIP
+    replicas: 1
+
+    commonLabels: {}
+    serviceAnnotations: {}
+
+    # The name of Kubernetes Secret containing the 1Password Connect credentials
+    credentialsName: op-credentials
+
+    # The key for the 1Password Connect Credentials stored in the credentials secret
+    credentialsKey: 1password-credentials.json
+
+    # Node selector stanza for the Connect pod
+    # See: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
+    nodeSelector: {}
+
+    # Affinity rules for the Connect pod
+    affinity: {}
 
     api:
       # Prometheus Service Monitor
@@ -46,10 +74,32 @@ connect:
         # Extra annotations for the ServiceMonitor
         annotations: {}
 
+    # This section of values is for 1Password Operator Configuration
+    operator: 
+      create: false
+
+# Helm values passed to the external-secrets chart.
+# https://github.com/external-secrets/external-secrets/blob/main/deploy/charts/external-secrets/values.yaml
 external-secrets:
   # Specifies whether an external secret operator deployment be created.
   # If set to false, the operator will not be deployed and only the CRDs will be installed.
   createOperator: true
+
+  # Annotations and labels to add to the operator deployment.
+  commonLabels: {}
+
+  # Annotations and labels to add to Pod
+  podAnnotations: {}
+  podLabels: {}
+
+  # If true, external-secrets will perform leader election between instances to ensure no more
+  # than one instance of external-secrets operates at a time.
+  leaderElect: false
+  replicaCount: 1
+
+  # Specifies the number of concurrent ExternalSecret Reconciles external-secret executes at
+  # a time.
+  concurrent: 1
 
   # If set, install and upgrade CRDs through helm chart.
   installCRDs: true
@@ -59,6 +109,10 @@ external-secrets:
     createClusterGenerator: true
     createClusterPushSecret: true
     createPushSecret: true
+    annotations: {}
+    conversion:
+      # -- Conversion is disabled by default as we stopped supporting v1alpha1.
+      enabled: false
 
   # If set external secrets are only reconciled in the
   # provided namespace
@@ -66,6 +120,9 @@ external-secrets:
   # Must be used with scopedNamespace. If true, create scoped RBAC roles under the scoped namespace
   # and implicitly disable cluster stores and cluster external secrets
   scopedRBAC: false
+  # If true the OpenShift finalizer permissions will be added to RBAC
+  openshiftFinalizers: false
+
   # if true, the operator will process cluster external secret. Else, it will ignore them.
   processClusterExternalSecret: true
   # if true, the operator will process cluster push secret. Else, it will ignore them.
@@ -81,3 +138,28 @@ external-secrets:
   grafanaDashboard:
     # If true creates a Grafana dashboard.
     enabled: false
+
+# Helm values passed to the reflector chart.
+# https://github.com/emberstack/kubernetes-reflector/blob/main/src/helm/reflector/values.yaml
+reflector: 
+  replicaCount: 1
+  cron:
+    enabled: false
+    schedule: "*/15 * * * *"
+    activeDeadlineSeconds: 600
+  resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  topologySpreadConstraints: []
+  priorityClassName: ""
