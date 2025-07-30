@@ -12,7 +12,7 @@ namespace:
 
 clusterStores:
   enabled: false
-  stores: {}
+  stores: []
   # Example cluster vault
   # - name: "example-cluster-vault"
   #   # Defaults to true, set to false to disable
