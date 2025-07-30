@@ -5,21 +5,21 @@
 apiVersion: external-secrets.io/v1
 kind: ClusterSecretStore
 metadata:
-  name: {{ .name }}
+  name: {{ .name | quote }}
 spec:
   provider:
     onepassword:
       connectHost: http://onepassword-connect:8080
       vaults:
         {{- range .vaults }}
-        {{ .name }}: {{ .priority }}
-        {{- end }} 
+        {{ .name | quote }}: {{ .priority | quote }}
+        {{- end }}
       auth:
         secretRef:
           connectTokenSecretRef:
-            name: {{ $.Values.connectTokenSecretName }}
+            name: {{ $.Values.connectTokenSecretName | quote }}
             key: token
-            namespace: {{ $.Values.namespace }}
+            namespace: {{ $.Values.namespace | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
