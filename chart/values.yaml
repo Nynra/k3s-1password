@@ -6,6 +6,9 @@ clusterVaults:
   vaults: {}
   # Example cluster vault
   # - name: "example-cluster-vault"
+  #   # Defaults to true, set to false to disable
+  #   enabled: true
+  #   # Vaults in the cluster vault
   #   vaults:
   #     - name: "example-vault"
   #       priority: 1
@@ -17,6 +20,9 @@ scopedVaults:
   # Example scoped vault
   # - name: "example-scoped-vault"
   #   namespace: "example-namespace"
+  #   # Defaults to true, set to false to disable
+  #   enabled: true
+  #   # Vaults in the scoped vault
   #   vaults:
   #     - name: "example-vault"
   #       priority: 1

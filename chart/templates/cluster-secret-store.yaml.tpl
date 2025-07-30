@@ -1,5 +1,6 @@
 {{- if .Values.clusterVaults.enabled }}
 {{- range .Values.clusterVaults.vaults }}
+{{- if .enabled }}
 ---
 apiVersion: external-secrets.io/v1
 kind: ClusterSecretStore
@@ -19,5 +20,6 @@ spec:
             name: {{ $.Values.connectTokenSecretName }}
             key: token
             namespace: {{ $.Values.namespace }}
+{{- end }}
 {{- end }}
 {{- end }}
