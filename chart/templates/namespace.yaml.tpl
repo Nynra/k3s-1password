@@ -22,5 +22,5 @@ metadata:
     {{- if .Values.namespace.commonLabels }}
     {{- toYaml .Values.namespace.commonLabels | nindent 4 }}
     {{- end }}
-{{- end }}{{- end }}
+{{- end }}
     
