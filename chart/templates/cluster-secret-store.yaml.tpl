@@ -19,7 +19,7 @@ spec:
           connectTokenSecretRef:
             name: {{ $.Values.connectTokenSecretName | quote }}
             key: token
-            namespace: {{ $.Values.namespace.name | quote }}
+            namespace: {{ $.Release.Namespace | quote }}
 {{- end }}
 {{- end }}
 {{- end }}{{- end }}

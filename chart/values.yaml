@@ -15,12 +15,6 @@ enableEksOperator: true
 
 connectTokenSecretName: "onepassword-connect-token"
 
-namespace:
-  enabled: true
-  name: "external-secrets"
-  commonAnnotations: {}
-  commonLabels: {}
-
 clusterStores:
   enabled: false
   stores: []
