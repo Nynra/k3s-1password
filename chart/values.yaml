@@ -132,6 +132,8 @@ external-secrets:
   grafanaDashboard:
     # If true creates a Grafana dashboard.
     enabled: false
+    sidecarLabel: "grafana_dashboard"
+    sidecarLabelValue: "1"
 
 # Helm values passed to the reflector chart.
 # https://github.com/emberstack/kubernetes-reflector/blob/main/src/helm/reflector/values.yaml
