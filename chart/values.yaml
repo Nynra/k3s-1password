@@ -13,6 +13,7 @@ enableReflector: false
 enableConnect: true
 enableEksOperator: true
 
+# Only used to create clustersecretstores
 connectTokenSecretName: "onepassword-connect-token"
 
 clusterStores:
