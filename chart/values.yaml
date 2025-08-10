@@ -16,10 +16,6 @@ enabled: true
 enableReflector: true
 enableOperator: true
 
-commonLabels: |
-  tenancy.io/stack: "k3s-1password"
-  tenancy.io/tenant: "test"
-
 # ClusterSecretStores to deploy. 
 # It is recommended to either use a scoped store and reflect secrets to other namespaces,
 # deploy scoped stores in each namespace that needs access to the secrets,
@@ -86,14 +82,15 @@ externalSecrets:
 # Helm values passed to the external-secrets chart.
 # https://github.com/external-secrets/external-secrets/blob/main/deploy/charts/external-secrets/values.yaml
 external-secrets:
+  commonLabels:
+    - tenancy.io/stack: "k3s-1password"
+    - tenancy.io/tenant: "test"
+
   # Enable the operator
   enabled: true
   # Specifies whether an external secret operator deployment be created.
   # If set to false, the operator will not be deployed and only the CRDs will be installed.
   createOperator: true
-
-  # Annotations and labels to add to the operator deployment.
-  commonLabels: {}
 
   # Annotations and labels to add to Pod
   podAnnotations: {}
