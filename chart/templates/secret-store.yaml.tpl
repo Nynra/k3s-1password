@@ -18,14 +18,6 @@ spec:
           {{- else }}
           key: token
           {{- end }}
-        secretRef:
-          serviceAccountTokenSecretRef:
-            name: {{ .accessToken | quote }}
-            {{- if .accessTokenField }}
-            key: {{ .accessTokenField | quote }}
-            {{- else }}
-            key: token
-            {{- end }}
 {{- end }}
 {{- end }}
 {{- end }}{{- end }}
