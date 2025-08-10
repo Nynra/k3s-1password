@@ -1,5 +1,6 @@
 {{- if .Values.enabled }}{{- if .Values.externalSecrets.enabled }}{{- if .Values.externalSecrets.enabled }}
 {{- range .Values.externalSecrets.secrets }}
+{{- if .enabled }}
 {{- $remoteSecretName := .remoteName | quote }}
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
@@ -12,11 +13,6 @@ metadata:
     {{- if $.Values.global.commonAnnotations }}
     {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
     {{- end }}
-  {{- if $.Values.global.commonLabels }}
-  labels:
-    # Global labels
-    {{- toYaml $.Values.global.commonLabels | nindent 4 }}
-  {{- end }}
 spec:
   secretStoreRef:
     kind: "SecretStore"
@@ -33,5 +29,6 @@ spec:
         decodingStrategy: None
         metadataPolicy: None
     {{- end }}
+{{- end }}
 {{- end }}
 {{- end }}{{- end }}{{- end }}

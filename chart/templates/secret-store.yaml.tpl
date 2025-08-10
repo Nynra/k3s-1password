@@ -1,6 +1,6 @@
 {{- if .Values.enabled }}{{- if .Values.scopedStores.enabled }}
 {{- range .Values.scopedStores.stores }}
-{{- if .enabled | default true }}
+{{- if .enabled }}
 ---
 apiVersion: external-secrets.io/v1
 kind: SecretStore

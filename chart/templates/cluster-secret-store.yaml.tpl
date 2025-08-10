@@ -1,6 +1,6 @@
 {{- if .Values.enabled }}{{- if .Values.clusterStores.enabled }}
 {{- range .Values.clusterStores.stores }}
-{{- if .enabled | default true }}
+{{- if .enabled }}
 ---
 apiVersion: external-secrets.io/v1
 kind: ClusterSecretStore
