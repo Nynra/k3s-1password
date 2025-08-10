@@ -6,7 +6,6 @@ apiVersion: external-secrets.io/v1
 kind: SecretStore
 metadata:
   name: {{ .name | quote }}
-  namespace: {{ $.Release.Namespace | quote }}
 spec:
   provider:
     onepasswordSDK:
