@@ -16,7 +16,7 @@ enabled: true
 enableReflector: true
 enableOperator: true
 
-commonLabels:
+commonLabels: |
   tenancy.io/stack: "k3s-1password"
   tenancy.io/tenant: "test"
 
