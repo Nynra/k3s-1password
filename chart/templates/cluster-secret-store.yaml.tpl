@@ -6,7 +6,6 @@ apiVersion: external-secrets.io/v1
 kind: ClusterSecretStore
 metadata:
   name: {{ .name | quote }}
-  namespace: default
 spec:
   provider:
     onepasswordSDK:
@@ -19,6 +18,7 @@ spec:
           {{- else }}
           key: token
           {{- end }}
+          namespace: {{ $.Release.Namespace | quote }}
 {{- end }}
 {{- end }}
 {{- end }}{{- end }}
