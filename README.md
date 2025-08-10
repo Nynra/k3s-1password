@@ -2,13 +2,7 @@
 
 ## Installation
 
-The EKS expects 2 secrets to be created in the cluster manually:
-<https://dev.to/3deep5me/using-1password-with-external-secrets-operator-in-a-gitops-way-4lo4>
-create connect token and 1password credentials manually for now
-
-```bash
-kubectl create secret generic op-credentials -n external-secrets --from-literal=1password-credentials.json="$(cat /path/to/1password-credentials.json | base64)"
-```
+The operator expects a token to be present for each vault. This can be bootstrapped by creating a secret in the `external-secrets` namespace with the name `onepassword-connect-token`. The token can be generated from on the 1password dev page.
 
 ```bash
 export OP_CONNECT_TOKEN="your_connect_token"

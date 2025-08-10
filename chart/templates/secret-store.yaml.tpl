@@ -1,11 +1,12 @@
-{{- if .Values.enabled }}{{- if .Values.clusterStores.enabled }}
-{{- range .Values.clusterStores.stores }}
+{{- if .Values.enabled }}{{- if .Values.scopedStores.enabled }}
+{{- range .Values.scopedStores.stores }}
 {{- if .enabled | default true }}
 ---
 apiVersion: external-secrets.io/v1
-kind: ClusterSecretStore
+kind: SecretStore
 metadata:
   name: {{ .name | quote }}
+  namespace: {{ $.Release.Namespace | quote }}
 spec:
   provider:
     onepasswordSDK:

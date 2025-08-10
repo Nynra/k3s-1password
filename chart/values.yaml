@@ -1,5 +1,9 @@
 global:
-  commonLabels: {}
+  # EKS does not support global common labels and annotations
+  # commonLabels:
+  #   tenancy.io/stack: "k3s-1password"
+  #   tenancy.io/tenant: "test"
+
   commonAnnotations: {}
 
   # Supported by EKS
@@ -9,73 +13,81 @@ global:
   affinity: {}
 
 enabled: true
-enableReflector: false
-enableConnect: true
-enableEksOperator: true
+enableReflector: true
+enableOperator: true
 
-# Only used to create clustersecretstores
-connectTokenSecretName: "onepassword-connect-token"
+commonLabels:
+  tenancy.io/stack: "k3s-1password"
+  tenancy.io/tenant: "test"
 
+# ClusterSecretStores to deploy. 
+# It is recommended to either use a scoped store and reflect secrets to other namespaces,
+# deploy scoped stores in each namespace that needs access to the secrets,
+# or use a scoped operator in combination with cluster stores. If cluster stores are
+# used without a scoped operator all namespaces will be able to access the store and 
+# reconsile secrets from it.
 clusterStores:
   enabled: false
   stores: []
-  # Example cluster vault
+  # stores:
+  # # Example cluster vault
   # - name: "example-cluster-vault"
-  #   # Defaults to true, set to false to disable
+  #   # Optional, defaults to true, set to false to disable
   #   enabled: true
   #   # Vaults in the cluster vault
-  #   vaults:
-  #     - name: "example-vault"
-  #       priority: 1
-  #     # More can be added, priority should be unique
+  #   vault: example-vault
+  #   # The 1password service account token used to access the vault
+  #   accessToken: "example-access-token"
+  #   # Optional, the field in the secret that contains the access token
+  #   accessTokenField: "token"
 
-# Helm values passed to the connect chart.
-# First connect to pass the content of this block to the helm chart
-# https://github.com/1Password/connect-helm-charts/blob/main/charts/connect/values.yaml
-connect: 
-  # Second because the chart expects the values to be in a connect block
-  connect: 
-    serviceType: ClusterIP
-    replicas: 1
+# ScopedSecretStores to deploy.
+# Scoped stores are used to limit access to secrets to a specific namespace. This chart 
+# is configured to only deploy scoped stores in its own namespace, as a namespace should manage
+# its own secrets. The scoped store can be used to pull secrets and reflect them to another namespace
+# , usefull for provisioning secrets in a namespace that does not have access to its own scoped store.
+scopedStores:
+  enabled: false
+  stores: []
+  # stores:
+  # # Example scoped vault
+  # - name: "example-scoped-vault"
+  #   # Optional, defaults to true, set to false to disable
+  #   enabled: true
+  #   # Vaults in the scoped vault
+  #   vault: example-vault
+  #   # The 1password service account token used to access the vault
+  #   accessToken: "example-access-token"
+  #   # Optional, the field in the secret that contains the access token
+  #   accessTokenField: "token"
 
-    commonLabels: {}
-    serviceAnnotations: {}
-
-    # The name of Kubernetes Secret containing the 1Password Connect credentials
-    credentialsName: op-credentials
-
-    # The key for the 1Password Connect Credentials stored in the credentials secret
-    credentialsKey: 1password-credentials.json
-
-    # Node selector stanza for the Connect pod
-    # See: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector
-    nodeSelector: {}
-
-    # Affinity rules for the Connect pod
-    affinity: {}
-
-    api:
-      # Prometheus Service Monitor
-      # ref: https://github.com/coreos/prometheus-operator
-      serviceMonitor:
-        # Create ServiceMonitor Resource for scraping metrics using PrometheusOperator
-        enabled: false
-        # Specify the interval at which metrics should be scraped
-        interval: 30s
-        # Define the path used by ServiceMonitor to scrape metrics
-        path: "/metrics"
-        # Define the HTTP URL parameters used by ServiceMonitor
-        params: {}
-        # Extra annotations for the ServiceMonitor
-        annotations: {}
-
-    # This section of values is for 1Password Operator Configuration
-    operator: 
-      create: false
+# Secrets to pull from one of the created stores.
+# These secrets can be used for reflecting secrets to other namespaces or for creating
+# Kubernetes secrets in the namespace where this chart is deployed.
+externalSecrets:
+  enabled: false
+  secrets: []
+  # secrets:
+  # # Example secret to pull from a cluster store
+  # - name: "example-secret"
+  #   # The name of the cluster store to pull the secret from
+  #   storeName: "example-cluster-vault"
+  #   # The type of the secret store
+  #   storeType: "SecretStore"
+  #   # The name of the secret to pull from the store
+  #   remoteName: "example-secret-name"
+  #   fieldMappings:
+  #     # The key in the remote secret
+  #     - remoteField: "password"
+  #       # The key in the Kubernetes secret
+  #       secretKey: "password"
+  #     # .... more mappings
 
 # Helm values passed to the external-secrets chart.
 # https://github.com/external-secrets/external-secrets/blob/main/deploy/charts/external-secrets/values.yaml
 external-secrets:
+  # Enable the operator
+  enabled: true
   # Specifies whether an external secret operator deployment be created.
   # If set to false, the operator will not be deployed and only the CRDs will be installed.
   createOperator: true
