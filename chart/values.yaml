@@ -83,8 +83,8 @@ externalSecrets:
 # https://github.com/external-secrets/external-secrets/blob/main/deploy/charts/external-secrets/values.yaml
 external-secrets:
   commonLabels:
-    - tenancy.io/stack: "k3s-1password"
-    - tenancy.io/tenant: "test"
+    tenancy.io/stack: "k3s-1password"
+    tenancy.io/tenant: "test"
 
   # Enable the operator
   enabled: true
