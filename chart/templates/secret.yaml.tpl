@@ -19,6 +19,28 @@ spec:
     name: {{ .storeName | quote }}
   target:
     creationPolicy: Owner
+    template:
+      engineVersion: v2
+      metadata:
+        {{- if $.Values.external-secrets.commonLabels | .labels }}  
+        labels:
+          # Global labels
+          {{- if $.Values.external-secrets.commonLabels }}
+          {{- toYaml $.Values.external-secrets.commonLabels | nindent 4 }}
+          {{- end }}
+          {{- if .labels }}
+          {{- toYaml .labels | nindent 4 }}
+          {{- end }}
+        {{- end }}
+        {{- if $.Values.external-secrets.commonAnnotations | $.Values.externalSecrets.allowReflection }}
+        annotations:
+          reflector.v1.k8s.emberstack.com/reflection-allowed: {{ .reflection.enabled | quote }}
+          reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: {{ .reflection.allowedNamespaces | quote }}
+          {{- if $.Values.global.commonAnnotations }}
+          {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
+          {{- end }}
+        {{- else }}
+        {{- end }}
   data:
     {{- range .fieldMappings}}
     - secretKey: {{ .secretKey | quote }}
