@@ -32,16 +32,7 @@ spec:
           {{- toYaml .labels | nindent 4 }}
           {{- end }}
         {{- end }}
-        {{- if $.Values.external-secrets.commonAnnotations | $.Values.externalSecrets.allowReflection }}
-        annotations:
-          reflector.v1.k8s.emberstack.com/reflection-allowed: {{ .reflection.enabled | quote }}
-          reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: {{ .reflection.allowedNamespaces | quote }}
-          reflector.v1.k8s.emberstack.com/reflection-auto-enabled: {{ .reflection.allowAutoReflection | quote }}
-          reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: {{ .reflection.autoReflectionNamespaces | quote }}
-          {{- if $.Values.global.commonAnnotations }}
-          {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
-          {{- end }}
-        {{- end }}
+        
   data:
     {{- range .fieldMappings}}
     - secretKey: {{ .secretKey | quote }}
