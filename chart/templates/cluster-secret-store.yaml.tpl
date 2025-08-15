@@ -7,7 +7,7 @@ kind: ClusterSecretStore
 metadata:
   name: {{ .name | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "1"
     {{- if $.Values.global.commonAnnotations }}
     # Global annotations
     {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}

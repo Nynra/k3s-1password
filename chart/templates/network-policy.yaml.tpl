@@ -5,7 +5,7 @@ metadata:
   name: "{{ .Release.Name }}-network-policy"
   namespace: {{ .Release.Namespace | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "1"
     {{- if $.Values.global.commonAnnotations }}
       # Global annotations 
       {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}

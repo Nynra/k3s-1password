@@ -8,7 +8,7 @@ metadata:
   name: {{ .name }}
   namespace: {{ $.Release.Namespace | quote }}
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "2"
     {{- if $.Values.global.commonAnnotations }}
     # Global annotations
     {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
