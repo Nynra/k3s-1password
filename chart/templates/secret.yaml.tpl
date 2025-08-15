@@ -22,7 +22,7 @@ spec:
     template:
       engineVersion: v2
       metadata:
-        {{- if $.Values.external-secrets.commonLabels | .labels }}  
+        {{- if .labels | default $.Values.external-secrets.commonLabels }}
         labels:
           # Global labels
           {{- if $.Values.external-secrets.commonLabels }}

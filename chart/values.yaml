@@ -22,20 +22,21 @@ enableOperator: true
 # or use a scoped operator in combination with cluster stores. If cluster stores are
 # used without a scoped operator all namespaces will be able to access the store and 
 # reconsile secrets from it.
-clusterStores:
-  enabled: false
-  stores: []
-  # stores:
-  # # Example cluster vault
-  # - name: "example-cluster-vault"
-  #   # Optional, defaults to true, set to false to disable
-  #   enabled: true
-  #   # Vaults in the cluster vault
-  #   vault: example-vault
-  #   # The 1password service account token used to access the vault
-  #   accessToken: "example-access-token"
-  #   # Optional, the field in the secret that contains the access token
-  #   accessTokenField: "token"
+# Cluster secret CRDs are not installed by default, as they are not needed for scoped stores.
+# clusterStores:
+#   enabled: false
+#   stores: []
+#   # stores:
+#   # # Example cluster vault
+#   # - name: "example-cluster-vault"
+#   #   # Optional, defaults to true, set to false to disable
+#   #   enabled: true
+#   #   # Vaults in the cluster vault
+#   #   vault: example-vault
+#   #   # The 1password service account token used to access the vault
+#   #   accessToken: "example-access-token"
+#   #   # Optional, the field in the secret that contains the access token
+#   #   accessTokenField: "token"
 
 # ScopedSecretStores to deploy.
 # Scoped stores are used to limit access to secrets to a specific namespace. This chart 
@@ -67,6 +68,7 @@ externalSecrets:
   # secrets:
   # # Example secret to pull from a cluster store
   # - name: "example-secret"
+  #   enabled: true
   #   # The name of the cluster store to pull the secret from
   #   storeName: "example-cluster-vault"
   #   # The type of the secret store
@@ -119,10 +121,10 @@ external-secrets:
   # If set, install and upgrade CRDs through helm chart.
   installCRDs: true
   crds:
-    createClusterExternalSecret: true
-    createClusterSecretStore: true
-    createClusterGenerator: true
-    createClusterPushSecret: true
+    createClusterExternalSecret: false
+    createClusterSecretStore: false
+    createClusterGenerator: false
+    createClusterPushSecret: false
     createPushSecret: true
     annotations: {}
     conversion:
@@ -139,11 +141,11 @@ external-secrets:
   openshiftFinalizers: false
 
   # if true, the operator will process cluster external secret. Else, it will ignore them.
-  processClusterExternalSecret: true
+  processClusterExternalSecret: false
   # if true, the operator will process cluster push secret. Else, it will ignore them.
-  processClusterPushSecret: true
+  processClusterPushSecret: false
   # if true, the operator will process cluster store. Else, it will ignore them.
-  processClusterStore: true
+  processClusterStore: false
   # if true, the operator will process push secret. Else, it will ignore them.
   processPushSecret: true
 
@@ -155,6 +157,18 @@ external-secrets:
     enabled: false
     sidecarLabel: "grafana_dashboard"
     sidecarLabelValue: "true"
+
+  # Restrict Webhook TLS Ciphers
+  webhook:
+    extraArgs:
+      tls-ciphers: "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
+
+  bitwarden-sdk-server:
+    enabled: false
+
+  securityContext:
+    allowPrivilegeEscalation: false
+
 
 # Helm values passed to the reflector chart.
 # https://github.com/emberstack/kubernetes-reflector/blob/main/src/helm/reflector/values.yaml
