@@ -1,11 +1,4 @@
 global:
-  # EKS does not support global common labels and annotations
-  # commonLabels:
-  #   tenancy.io/stack: "k3s-1password"
-  #   tenancy.io/tenant: "test"
-
-  commonAnnotations: {}
-
   # Supported by EKS
   nodeSelector: {}
   tolerations: []
@@ -107,10 +100,6 @@ externalSecrets:
 # Helm values passed to the external-secrets chart.
 # https://github.com/external-secrets/external-secrets/blob/main/deploy/charts/external-secrets/values.yaml
 external-secrets:
-  commonLabels:
-    tenancy.io/stack: "k3s1password"
-    tenancy.io/tenant: "test"
-
   # Enable the operator
   enabled: true
   # Specifies whether an external secret operator deployment be created.
