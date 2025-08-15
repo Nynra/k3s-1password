@@ -16,6 +16,16 @@ enabled: true
 enableReflector: true
 enableOperator: true
 
+networkPolicy:
+  enabled: true
+  # If set to true, the network policy will allow traffic from the monitoring namespace.
+  # This is useful for allowing Prometheus to scrape metrics from the operator.
+  monitoring:
+    enabled: false
+    # The namespace where the monitoring pods are running.
+    # This is usually the namespace where Prometheus is deployed.
+    namespace: "monitoring"
+
 # ClusterSecretStores to deploy. 
 # It is recommended to either use a scoped store and reflect secrets to other namespaces,
 # deploy scoped stores in each namespace that needs access to the secrets,
@@ -25,7 +35,7 @@ enableOperator: true
 # Cluster secret CRDs are not installed by default, as they are not needed for scoped stores.
 clusterStores:
   enabled: false
-#   stores: []
+  stores: []
 #   # stores:
 #   # # Example cluster vault
 #   # - name: "example-cluster-vault"
@@ -62,8 +72,8 @@ scopedStores:
 # These secrets can be used for reflecting secrets to other namespaces or for creating
 # Kubernetes secrets in the namespace where this chart is deployed.
 externalSecrets:
-  enabled: true
-  allowReflection: true
+  enabled: false
+  allowReflection: false
   secrets: []
   # secrets:
   # # Example secret to pull from a cluster store
