@@ -22,7 +22,6 @@ spec:
     template:
       engineVersion: v2
       metadata:
-        {{- if .labels | default $.Values.external-secrets.commonLabels }}
         labels:
           # Global labels
           {{- if $.Values.external-secrets.commonLabels }}
@@ -31,7 +30,6 @@ spec:
           {{- if .labels }}
           {{- toYaml .labels | nindent 4 }}
           {{- end }}
-        {{- end }}
         {{- if $.Values.external-secrets.commonAnnotations | $.Values.externalSecrets.allowReflection }}
         annotations:
           reflector.v1.k8s.emberstack.com/reflection-allowed: {{ .reflection.enabled | quote }}
