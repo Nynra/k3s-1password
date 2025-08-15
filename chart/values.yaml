@@ -23,8 +23,8 @@ enableOperator: true
 # used without a scoped operator all namespaces will be able to access the store and 
 # reconsile secrets from it.
 # Cluster secret CRDs are not installed by default, as they are not needed for scoped stores.
-# clusterStores:
-#   enabled: false
+clusterStores:
+  enabled: false
 #   stores: []
 #   # stores:
 #   # # Example cluster vault
@@ -62,8 +62,8 @@ scopedStores:
 # These secrets can be used for reflecting secrets to other namespaces or for creating
 # Kubernetes secrets in the namespace where this chart is deployed.
 externalSecrets:
-  enabled: false
-  allowReflection: false
+  enabled: true
+  allowReflection: true
   secrets: []
   # secrets:
   # # Example secret to pull from a cluster store
@@ -80,6 +80,8 @@ externalSecrets:
   #     - remoteField: "password"
   #       # The key in the Kubernetes secret
   #       secretKey: "password"
+  #     - remoteField: "username"
+  #       secretKey: "username"
   #     # .... more mappings
   #   # Reflection settings
   #   reflection:
