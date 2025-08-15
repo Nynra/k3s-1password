@@ -13,13 +13,8 @@ metadata:
     # Global annotations
     {{- toYaml $.Values.global.commonAnnotations | nindent 4 }}
     {{- end }}
-  {{- if $.Values.global.commonLabels }}  
-  labels:
-    # Global labels
-    {{- toYaml $.Values.external-secrets.commonLabels | nindent 4 }}
-  {{- end }}
 spec:
-  secretStoreRef:
+    secretStoreRef:
     kind: "SecretStore"
     name: {{ .storeName | quote }}
   target:
