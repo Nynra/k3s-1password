@@ -32,6 +32,7 @@ spec:
         decodingStrategy: None
         metadataPolicy: None
     {{- end }}
+---
 {{- end }}
 {{- end }}
 {{- end }}{{- end }}
