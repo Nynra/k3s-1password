@@ -27,8 +27,7 @@ spec:
     {{- range .fieldMappings}}
     - secretKey: {{ .secretKey | quote }}
       remoteRef:
-        key: {{ $remoteSecretName | quote }}
-        property: {{ .remoteField | quote }}
+        key: "{{ $remoteSecretName }}/{{ .remoteField }}"
         conversionStrategy: Default	
         decodingStrategy: None
         metadataPolicy: None
