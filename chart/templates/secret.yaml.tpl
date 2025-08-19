@@ -10,7 +10,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
-    secretStoreRef:
+  secretStoreRef:
     kind: "SecretStore"
     name: {{ .storeName | quote }}
   target:
