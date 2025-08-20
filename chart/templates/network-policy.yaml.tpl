@@ -34,13 +34,22 @@ spec:
               app.kubernetes.io/name: external-secrets-webhook
   egress:
     - to:
-        - namespaceSelector: {}
-          podSelector:
+        - podSelector:
             matchLabels:
               k8s-app: kube-dns
       ports:
         - port: 53
           protocol: UDP
+    {{ if .Values.networkPolicy.kubernetesApiIps }}
+    - to:
+        {{- range .Values.networkPolicy.kubernetesApiIps -}}
+        - ipBlock:
+            cidr: {{ . | quote }}
+        {{- end }}
+      ports:
+        - port: {{ .Values.networkPolicy.kubernetesApiPort | default "443" | quote }}
+          protocol: TCP
+    {{- end }}
     - to:
         - podSelector:
             matchLabels:

@@ -19,6 +19,9 @@ networkPolicy:
     # This is usually the namespace where Prometheus is deployed.
     namespace: "monitoring"
 
+  kubernetesApiIps: []
+  kubernetesApiPort: 6443
+
 # ClusterSecretStores to deploy. 
 # It is recommended to either use a scoped store and reflect secrets to other namespaces,
 # deploy scoped stores in each namespace that needs access to the secrets,
