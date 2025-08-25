@@ -47,7 +47,7 @@ spec:
             cidr: {{ . | quote }}
         {{- end }}
       ports:
-        - port: {{ .Values.networkPolicy.kubernetesApiPort | default "443" | quote }}
+        - port: {{ .Values.networkPolicy.kubernetesApiPort | default 443 | quote }}
           protocol: TCP
     {{- end }}
     - to:
