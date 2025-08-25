@@ -42,10 +42,10 @@ spec:
           protocol: UDP
     {{ if .Values.networkPolicy.kubernetesApiIps }}
     - to:
-        {{- range .Values.networkPolicy.kubernetesApiIps -}}
         - ipBlock:
+            {{- range .Values.networkPolicy.kubernetesApiIps -}}
             cidr: {{ . | quote }}
-        {{- end }}
+            {{- end }}
       ports:
         - port: {{ .Values.networkPolicy.kubernetesApiPort | default 443 }}
           protocol: TCP
